@@ -1,119 +1,169 @@
-# CV Chatbot RAG
+# CV Chatbot
 
 [English](#english) | [Español](#español)
 
 # English
 
-A chatbot that uses Retrieval-Augmented Generation (RAG) to answer questions about CVs/resumes. The system allows uploading PDFs and querying information contained within them.
+An agent-based Retrieval-Augmented Generation (RAG) chatbot for CV/resume analysis. The system uses specialized agents to handle different CVs, enabling both individual and comparative analysis through natural language queries.
 
 ## Demo
 
-- [Watch Demo Video](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
+- [Watch Demo Video](https://www.loom.com/share/36b26fac33e44da288ba191d8f092db6?sid=90de9f94-2591-4b26-8336-f79b8f254693)
 
 ## Features
 
-- PDF CV/resume upload
-- Text processing using LangChain
-- Embeddings with OpenAI (text-embedding-3-small)
-- Vector storage with Pinecone
-- Response generation using Mixtral 8x7B via Groq
-- Streamlit user interface
+- **Agent-Based Architecture**:
+
+  - Individual agents for each CV
+  - Intelligent query routing
+  - Multi-CV comparison capabilities
+  - Default agent for general queries
+
+- **Advanced RAG Implementation**:
+
+  - PDF CV/resume processing
+  - Semantic chunking and embedding
+  - Context-aware retrieval
+  - Bilingual support (English/Spanish)
+
+## Technologies Used
+
+- [LangChain](https://python.langchain.com/): LLM application framework
+- [OpenAI](https://openai.com/): Text embeddings (text-embedding-3-small)
+- [Pinecone](https://www.pinecone.io/): Vector database
+- [Groq](https://groq.com/): LLM inference (Mixtral 8x7B)
+- [Streamlit](https://streamlit.io/): User interface
 
 ## Requirements
 
 - Python 3.9+
-- OpenAI account (for embeddings)
-- Pinecone account (for vector storage)
-- Groq account (for LLM)
+- OpenAI account (embeddings)
+- Pinecone account (vector storage)
+- Groq account (LLM)
 
 ## Installation
 
 1. Clone the repository
-2. Configure environment variables in `.env`
+2. Configure environment variables in `.env`:
+
+```bash
+OPENAI_API_KEY=your_key
+PINECONE_API_KEY=your_key
+GROQ_API_KEY=your_key
+PINECONE_INDEX_NAME=your_index
+```
 
 ## Usage
 
-1. Run the chatbot:
+1. Start the application:
 
 ```bash
 make run
 ```
 
-2. Open browser at `http://localhost:8501`
+2. Open `http://localhost:8501`
 
-3. Upload CVs using the sidebar
+3. Upload CVs through the sidebar
 
-4. Ask questions about the loaded CVs
+4. Query types:
+   - Individual CV: "What is Ana's experience with Python?"
+   - Default agent: "Tell me about your education"
+   - Multi-CV comparison: "Who has more experience in machine learning?"
 
-## Available Commands
+## Commands
 
 - `make setup`: Install dependencies
 - `make test`: Run test pipeline
-- `make run`: Start Streamlit application
+- `make test-names`: Test name extraction
+- `make run`: Launch Streamlit app
 
-## Technologies Used
+## Architecture
 
-- [LangChain](https://python.langchain.com/): Framework for LLM applications
-- [OpenAI](https://openai.com/): Embeddings
-- [Pinecone](https://www.pinecone.io/): Vector database
-- [Groq](https://groq.com/): LLM inference
-- [Streamlit](https://streamlit.io/): User interface
+- `agents.py`: Agent management and query processing
+- `vector_store.py`: Embedding and retrieval logic
+- `language_detector.py`: Language detection
+- `name_extractor.py`: Name extraction from CVs and queries
 
 ---
 
 # Español
 
-Un chatbot que utiliza Retrieval-Augmented Generation (RAG) para responder preguntas sobre CVs. El sistema permite cargar CVs en PDF y hacer consultas sobre la información contenida en ellos.
+Un chatbot basado en agentes que utiliza Retrieval-Augmented Generation (RAG) para análisis de CVs. El sistema emplea agentes especializados para manejar diferentes CVs, permitiendo tanto análisis individual como comparativo mediante consultas en lenguaje natural.
 
 ## Demo
 
-- [Ver Video Demo](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
+- [Ver Video Demo](https://www.loom.com/share/36b26fac33e44da288ba191d8f092db6?sid=90de9f94-2591-4b26-8336-f79b8f254693)
 
 ## Características
 
-- Carga de CVs en formato PDF
-- Procesamiento de texto usando LangChain
-- Embeddings con OpenAI (text-embedding-3-small)
-- Almacenamiento vectorial con Pinecone
-- Generación de respuestas usando Mixtral 8x7B vía Groq
-- Interfaz de usuario con Streamlit
+- **Arquitectura Basada en Agentes**:
+
+  - Agentes individuales para cada CV
+  - Enrutamiento inteligente de consultas
+  - Capacidad de comparación multi-CV
+  - Agente predeterminado para consultas generales
+
+- **Implementación RAG Avanzada**:
+
+  - Procesamiento de CVs en PDF
+  - Segmentación y embedding semántico
+  - Recuperación contextual
+  - Soporte bilingüe (Español/Inglés)
+
+## Tecnologías Utilizadas
+
+- [LangChain](https://python.langchain.com/): Framework para aplicaciones LLM
+- [OpenAI](https://openai.com/): Embeddings (text-embedding-3-small)
+- [Pinecone](https://www.pinecone.io/): Base de datos vectorial
+- [Groq](https://groq.com/): LLM inference (Mixtral 8x7B)
+- [Streamlit](https://streamlit.io/): Interfaz
 
 ## Requisitos
 
 - Python 3.9+
-- Cuenta de OpenAI (para embeddings)
-- Cuenta de Pinecone (para almacenamiento vectorial)
-- Cuenta de Groq (para LLM)
+- Cuenta OpenAI (embeddings)
+- Cuenta Pinecone (almacenamiento vectorial)
+- Cuenta Groq (LLM)
 
 ## Instalación
 
 1. Clonar el repositorio
-2. Configurar variables de entorno en `.env`
+2. Configurar variables de entorno en `.env`:
+
+```bash
+OPENAI_API_KEY=tu_clave
+PINECONE_API_KEY=tu_clave
+GROQ_API_KEY=tu_clave
+PINECONE_INDEX_NAME=tu_indice
+```
 
 ## Uso
 
-1. Ejecutar el chatbot:
+1. Iniciar la aplicación:
 
 ```bash
 make run
 ```
 
-2. Abrir el navegador en `http://localhost:8501`
+2. Abrir `http://localhost:8501`
 
-3. Cargar CVs usando el panel lateral
+3. Cargar CVs a través del panel lateral
 
-4. Hacer preguntas sobre los CVs cargados
+4. Tipos de consultas:
+   - CV individual: "Qué experiencia tiene Ana en Python?"
+   - Agente predeterminado: "Cuéntame sobre tu educación"
+   - Comparación multi-CV: "Quién tiene más experiencia en machine learning?"
 
-## Comandos Disponibles
+## Comandos
 
 - `make setup`: Instalar dependencias
-- `make test`: Ejecutar pipeline de prueba
-- `make run`: Iniciar aplicación Streamlit
+- `make test`: Ejecutar pipeline de pruebas
+- `make test-names`: Probar extracción de nombres
+- `make run`: Iniciar app Streamlit
 
-## Tecnologías Utilizadas
+## Arquitectura
 
-- [LangChain](https://python.langchain.com/): Framework para aplicaciones LLM
-- [OpenAI](https://openai.com/): Embeddings
-- [Pinecone](https://www.pinecone.io/): Base de datos vectorial
-- [Groq](https://groq.com/): LLM inference
-- [Streamlit](https://streamlit.io/): Interfaz de usuario
+- `agents.py`: Gestión de agentes y procesamiento de consultas
+- `vector_store.py`: Lógica de embeddings y recuperación
+- `language_detector.py`: Detección de idioma
+- `name_extractor.py`: Extracción de nombres de CVs y consultas
