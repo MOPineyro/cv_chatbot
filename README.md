@@ -8,7 +8,7 @@ A chatbot that uses Retrieval-Augmented Generation (RAG) to answer questions abo
 
 ## Demo
 
-[![CV Chatbot Demo](https://cdn.loom.com/sessions/thumbnails/4247e48a256940ab993778769ba2f649-with-play.gif)](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
+- [Watch Demo Video](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
 
 ## Features
 
@@ -67,7 +67,7 @@ Un chatbot que utiliza Retrieval-Augmented Generation (RAG) para responder pregu
 
 ## Demo
 
-[![CV Chatbot Demo](https://cdn.loom.com/sessions/thumbnails/4247e48a256940ab993778769ba2f649-with-play.gif)](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
+- [Ver Video Demo](https://www.loom.com/share/4247e48a256940ab993778769ba2f649?sid=be2e3857-6334-432b-94bb-64944c7395b1)
 
 ## Características
 
