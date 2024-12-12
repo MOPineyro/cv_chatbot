@@ -1,0 +1,9 @@
+langchain
+langchain-groq
+langchain-community
+pinecone-client
+streamlit
+python-dotenv
+openai
+pypdf2
+tiktoken
