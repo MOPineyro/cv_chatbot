@@ -22,14 +22,12 @@ class DocumentLoader:
             for page in pdf_reader.pages:
                 text += page.extract_text()
             
-            # Debug print
             print(f"\nContenido extraído de {file_path}:")
             print(f"{text[:200]}...")
             
             # Dividir el texto en chunks
             chunks = self.text_splitter.split_text(text)
             
-            # Debug print
             print(f"Chunks generados: {len(chunks)}")
             for i, chunk in enumerate(chunks):
                 print(f"\nChunk {i+1}:")

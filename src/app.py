@@ -1,43 +1,25 @@
 import streamlit as st
 from document_loader import DocumentLoader
-from vector_store import VectorStore
 from langchain_groq import ChatGroq
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from config import GROQ_API_KEY, LLM_MODEL_NAME
+from agents import AgentManager
 import os
 
 class ChatbotApp:
     def __init__(self):
         self.loader = DocumentLoader()
-        self.vector_store = VectorStore()
+        self.agent_manager = AgentManager()
         
         # Cargar todos los CVs del directorio data/cvs
         self.load_all_cvs()
-        
-        # Inicializar el modelo LLM de Groq
-        self.llm = ChatGroq(
-            api_key=GROQ_API_KEY,
-            model_name=LLM_MODEL_NAME,
-            temperature=0.7,
-            max_tokens=4096
-        )
         
         # Inicializar memoria de conversación
         self.memory = ConversationBufferMemory(
             memory_key="chat_history",
             output_key="answer",
             return_messages=True
-        )
-        
-        # Inicializar la cadena RAG
-        self.qa_chain = ConversationalRetrievalChain.from_llm(
-            llm=self.llm,
-            retriever=self.vector_store.get_retriever(),
-            memory=self.memory,
-            return_source_documents=True,
-            return_generated_question=True,
-            combine_docs_chain_kwargs={"prompt": self.get_prompt()}
         )
 
     def load_all_cvs(self):
@@ -47,49 +29,42 @@ class ChatbotApp:
             st.error(f"¡No se encontró el directorio {cv_dir}!")
             return
 
-        all_chunks = []
         loaded_cvs = []
+        manuel_loaded = False
 
         for filename in os.listdir(cv_dir):
             if filename.endswith('.pdf'):
                 cv_path = os.path.join(cv_dir, filename)
                 try:
                     chunks = self.loader.load_pdf(cv_path)
-                    all_chunks.extend(chunks)
+                    cv_text = " ".join(chunks)
+                    
+                    name = os.path.splitext(filename)[0]
+                    
+                    is_manuel = name.lower() == "manuel_pineyro"
+                    if is_manuel:
+                        manuel_loaded = True
+                    
+                    self.agent_manager.add_agent(
+                        name=name,
+                        cv_text=cv_text,
+                        is_default=is_manuel
+                    )
                     loaded_cvs.append(filename)
                 except Exception as e:
                     st.error(f"Error al cargar {filename}: {str(e)}")
 
-        if all_chunks:
-            try:
-                self.vector_store.add_texts(all_chunks)
-                st.success(f"Se cargaron {len(loaded_cvs)} CVs: {', '.join(loaded_cvs)}")
-            except Exception as e:
-                st.error(f"Error al agregar textos al almacén vectorial: {str(e)}")
+        if loaded_cvs:
+            if not manuel_loaded:
+                st.warning("No se encontró el CV de Manuel. Las consultas sin nombre específico no funcionarán.")
+            st.success(f"Se cargaron {len(loaded_cvs)} CVs: {', '.join(loaded_cvs)}")
         else:
             st.warning("No se encontraron CVs en el directorio data/cvs")
-
-    def get_prompt(self):
-        """Obtener el prompt personalizado para el chatbot"""
-        template = """Eres un asistente útil que responde preguntas sobre CVs.
-        Usa la siguiente información para responder la pregunta del usuario:
-        {context}
-        
-        Pregunta: {question}
-        
-        Respuesta útil:"""
-        
-        from langchain.prompts import PromptTemplate
-        return PromptTemplate(
-            template=template,
-            input_variables=["context", "question"]
-        )
 
     def process_query(self, query: str) -> str:
         """Procesar una consulta y devolver la respuesta"""
         try:
-            result = self.qa_chain({"question": query})
-            return result['answer']
+            return self.agent_manager.process_query(query)
         except Exception as e:
             return f"Error procesando la consulta: {str(e)}"
 

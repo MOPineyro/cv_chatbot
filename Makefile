@@ -13,6 +13,10 @@ setup:
 test:
 	$(PYTHON) src/test_pipeline.py
 
+# Test name extraction
+test-names:
+	$(PYTHON) src/test_name_extraction.py
+
 # Run the Streamlit app
 run:
 	$(STREAMLIT) run src/app.py
@@ -33,6 +37,7 @@ help:
 	@echo "Available commands:"
 	@echo "  make setup    : Install dependencies"
 	@echo "  make test     : Run test pipeline"
+	@echo "  make test-names: Test name extraction"
 	@echo "  make run      : Start Streamlit app"
 	@echo "  make clean    : Clean up cache files"
 	@echo "  make all      : Full setup and run" 

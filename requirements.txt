@@ -1,9 +1,10 @@
 langchain
 langchain-groq
 langchain-community
+langchain-openai
 pinecone-client
 streamlit
 python-dotenv
-openai
 pypdf2
 tiktoken
+langdetect
