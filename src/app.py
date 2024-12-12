@@ -94,8 +94,42 @@ class ChatbotApp:
             return f"Error procesando la consulta: {str(e)}"
 
 def main():
-    st.set_page_config(page_title="CV Chatbot", page_icon="📄")
+    st.set_page_config(page_title="CV Chatbot", page_icon="📄", layout="wide")
     
+    # Sidebar para cargar CVs
+    with st.sidebar:
+        st.header("Cargar CV")
+        uploaded_file = st.file_uploader(
+            "Seleccione un archivo PDF",
+            type=['pdf'],
+            help="Suba un CV en formato PDF"
+        )
+        
+        if uploaded_file is not None:
+            # Guardar el archivo subido
+            save_path = os.path.join("data/cvs", uploaded_file.name)
+            os.makedirs("data/cvs", exist_ok=True)
+            
+            with open(save_path, "wb") as f:
+                f.write(uploaded_file.getvalue())
+            
+            # Reiniciar el chatbot para cargar el nuevo CV
+            if 'chatbot' in st.session_state:
+                del st.session_state.chatbot
+            
+            st.success(f"CV cargado exitosamente: {uploaded_file.name}")
+            
+        # Mostrar CVs cargados
+        if os.path.exists("data/cvs"):
+            cvs = [f for f in os.listdir("data/cvs") if f.endswith('.pdf')]
+            if cvs:
+                st.subheader("CVs Disponibles")
+                for cv in cvs:
+                    st.text(f"📄 {cv}")
+            else:
+                st.info("No hay CVs cargados")
+    
+    # Contenido principal
     st.title("CV Chatbot")
     st.write("Haga preguntas sobre los CVs cargados")
     
